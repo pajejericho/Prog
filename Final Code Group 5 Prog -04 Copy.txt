@@ -1,0 +1,296 @@
+Final code Group 5 Prog
+import java.util.Scanner;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
+public class Main {
+public static void main(String[] args) {
+
+Scanner sc = new Scanner(System.in);
+ArrayList<String> items = new ArrayList<>();
+ArrayList<Double> prices = new ArrayList<>();
+ArrayList<Integer> stock = new ArrayList<>();
+ ArrayList<String> records = new ArrayList<>();
+
+String[] defaultItems = {
+"Notebook", "Ballpen", "Pencil", "Eraser", "Pad Paper","Ruler", "Glue", "Scissors", "Marker", "Calculator","Folder", "Highlighter", "Sharpener", "Tape", "Fastener"
+        };
+double[] defaultPrices = {
+25, 10, 8, 5, 30, 15, 20, 20, 18, 30,12, 22, 7, 18, 2
+  };
+for (int i = 0; i < defaultItems.length; i++) 
+{ items.add(defaultItems[i]);
+  prices.add(defaultPrices[i]);
+   stock.add(50);
+        }
+
+        while (true) {
+            System.out.println("==== LOGIN ====");
+            System.out.println("1. Admin");
+            System.out.println("2. Cashier");
+            System.out.println("3. Exit");
+            System.out.print("Enter choice: ");
+            String choice = sc.nextLine();
+
+    
+if (choice.equals("1")) {
+while (true) {
+   System.out.print("Enter Username: ");
+   String user = sc.nextLine();
+   System.out.print("Enter Password: ");
+   String pass = sc.nextLine();
+
+ if (user.equals("admin1") && pass.equals("hoyadmin")) 
+break;
+else 
+System.out.println("Incorrect Credentials!");
+     }
+
+     while (true) {
+     System.out.println("=== ADMIN MENU ===");
+     System.out.println("1. View Items");
+     System.out.println("2. View Records");
+     System.out.println("3. Logout");
+     System.out.println("4. Exit");
+     System.out.print("Enter choice: ");
+     String adminChoice = sc.nextLine();
+
+  if (adminChoice.equals("1")) {
+  while (true) {
+
+ System.out.println("--- AVAILABLE ITEMS ---");
+ for (int i = 0; i < items.size(); i++) {
+ String status = (stock.get(i) == 0) ? " (OUT OF STOCK)" : "";
+
+System.out.println((i + 1) + ". " + items.get(i)
++ " - ₱" + prices.get(i) + " | Stock: " + stock.get(i) + status);
+               }
+System.out.println("Options:");
+System.out.println("1. Add Item");
+System.out.println("2. Update Item");
+System.out.println("3. Back");
+System.out.print("Enter choice: ");
+String subChoice = sc.nextLine();
+
+if (subChoice.equals("1")) {
+System.out.print("Enter item name: ");
+String newItem = sc.nextLine();
+
+  double newPrice;
+  while (true) {
+  try {
+System.out.print("Enter price: ");
+newPrice = Double.parseDouble(sc.nextLine());
+ if (newPrice > 0) break;
+                } 
+catch (Exception e) {}
+System.out.println("Invalid price!");
+                                }
+int newStock;
+while (true) {
+try {
+System.out.print("Enter stock (1-50): ");
+newStock = Integer.parseInt(sc.nextLine());
+if (newStock > 0 && newStock <= 50) break;
+              } 
+catch (Exception e) {}
+System.out.println("Invalid stock!");
+                                }
+items.add(newItem);
+prices.add(newPrice);
+stock.add(newStock);
+
+  records.add("ADMIN: Added " + newItem +
+  " ₱" + newPrice + " Stock:" + newStock);
+
+ System.out.println("Item added!");
+                    }
+
+ else if (subChoice.equals("2")) {
+while (true) {
+System.out.println("--- AVAILABLE ITEMS ---");
+
+for (int i = 0; i < items.size(); i++) {
+String status = (stock.get(i) == 0) ? " (OUT OF STOCK)" : "";
+System.out.println((i + 1) + ". " + items.get(i)
++ " - ₱" + prices.get(i) + " | Stock: " + stock.get(i) + status);
+             }
+int index;
+  try {
+System.out.print("Enter item number to update: ");
+index = Integer.parseInt(sc.nextLine()) - 1;
+           } 
+catch (Exception e) {
+                                        System.out.println("Invalid input!");
+continue;
+     }
+
+  if (index < 0 || index >= items.size()) {
+ System.out.println("Item not found!");
+ continue;
+}
+double newPrice;
+while (true) {
+  try {
+System.out.print("New price: ");
+newPrice = Double.parseDouble(sc.nextLine());
+if (newPrice > 0) break;
+    } 
+catch (Exception e) {}
+                                        System.out.println("Invalid price!");
+    }
+int newStock;
+while (true) {
+ try {
+System.out.print("New stock (0-50): ");
+newStock = Integer.parseInt(sc.nextLine());
+if (newStock >= 0 && newStock <= 50) break;
+      } 
+catch (Exception e) {}
+                                        System.out.println("Invalid stock!");
+}
+prices.set(index, newPrice);
+stock.set(index, newStock);
+
+LocalDateTime now = LocalDateTime.now();
+DateTimeFormatter f = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss a");
+                                  
+records.add("ADMIN UPDATE: " + items.get(index) + " ₱" + newPrice
++ " Stock:" + newStock
++ " Date:" + now.format(f));
+
+System.out.println("Item updated!");
+break;
+                                }
+                            }
+
+else if (subChoice.equals("3")) break;
+else System.out.println("Invalid choice!");
+                        }
+                    }
+
+else if (adminChoice.equals("2")) {
+ if (records.isEmpty()) System.out.println("No records.");
+ else {
+for (int i = 0; i < records.size(); i++) {
+System.out.println((i + 1) + ". " + records.get(i));
+        }
+     }
+ }
+
+else if (adminChoice.equals("3")) break;
+ else if (adminChoice.equals("4")) System.exit(0);
+ else System.out.println("Invalid choice!");
+                }
+            }
+else if (choice.equals("2")) {
+while (true) {
+                   System.out.print("Enter Username: ");
+                    String user = sc.nextLine();
+                    System.out.print("Enter Password: ");
+                    String pass = sc.nextLine();
+
+if (user.equals("cashier") && pass.equals("Cashier12")) break;
+else System.out.println("Incorrect Credentials!");
+                }
+
+while (true) {
+ System.out.println("=== CASHIER MENU ===");
+ System.out.println("1. View Items");
+ System.out.println("2. Record Purchase Item");
+ System.out.println("3. View Records");
+ System.out.println("4. Logout");
+ System.out.println("5. Exit");
+ System.out.print("Enter choice: ");
+ String ch = sc.nextLine();
+
+ if (ch.equals("1")) {
+ for (int i = 0; i < items.size(); i++) {
+  System.out.println((i + 1) + ". " + items.get(i)
+  + " ₱" + prices.get(i) + " Stock:" + stock.get(i));
+                    }
+      }
+
+else if (ch.equals("2")) {
+while (true) {
+for (int i = 0; i < items.size(); i++) { System.out.println((i + 1) + ". " + items.get(i)
+  + " ₱" + prices.get(i) + " Stock:" + stock.get(i));
+                  }
+
+ int index;
+  try {
+ System.out.print("Select item: ");
+ index = Integer.parseInt(sc.nextLine()) - 1;
+            } 
+catch (Exception e) {
+System.out.println("Invalid!");
+ continue;
+        }
+
+   if (index < 0 || index >= items.size()) {
+   System.out.println("Invalid item!");
+      continue;
+          }
+
+ if (stock.get(index) == 0) {
+System.out.println("Out of stock!");
+         continue;
+                            }
+
+    int qty;
+     try {
+ System.out.print("Quantity: ");
+ qty = Integer.parseInt(sc.nextLine());
+                            }
+ catch (Exception e) {
+  System.out.println("Invalid!");
+  continue;
+                            }
+
+ if (qty <= 0 || qty > stock.get(index)) {
+System.out.println("Invalid quantity!");
+ continue;
+                            }
+
+ double total = prices.get(index) * qty;
+ stock.set(index, stock.get(index) - qty);
+
+ LocalDateTime now = LocalDateTime.now();
+ DateTimeFormatter f =DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss a");
+  String rec = "Item: " + items.get(index)
+ + " Qty:" + qty+ " Total ₱" + total
+ + " Date:" + now.format(f);
+
+records.add(rec);
+System.out.println("==== PURCHASE SUMMARY ====");
+ System.out.println(rec);
+break;
+               }
+        }
+ else if (ch.equals("3")) {
+if (records.isEmpty()) System.out.println("No records.");
+ else {
+ for (int i = 0; i < records.size(); i++) {
+  System.out.println((i + 1) + ". " + records.get(i));
+                         }
+                }
+       }
+
+   else if (ch.equals("4")) break;
+   else if (ch.equals("5")) System.exit(0);
+  else System.out.println("Invalid choice!");
+                }
+            }
+
+   else if (choice.equals("3")) {
+   System.out.println("Exiting...");
+                break;
+            }
+
+     else {
+         System.out.println("Invalid choice!");
+            }
+        }
+    }
+}
